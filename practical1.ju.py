@@ -560,11 +560,11 @@ def ridge_regression_sklearn(X_test, X_train, y_train, alpha):
          The sklearn library automatically takes care of adding a column for the offset.
     '''
 
-    # ---------------- INSERT CODE ----------------------
+    model=linear_model.Ridge(alpha=alpha)#erzeugt Linear model object 
+    model.fit(X_train, y_train)#erstellen des models mit den trainingsdaten
+    y_pred=model.predict(X_test)#so erhalten wir die pred. values
+    weights=model.coef_#so erhalten wir die koeffizienten (=weights)
 
-
-
-    # ---------------- END CODE -------------------------
 
     return weights, y_pred
 
@@ -575,7 +575,21 @@ This time, only plot how the performance changes as a function of $\alpha$.
 
 # %%
 # Plot of MSE  vs. alphas
+mse_vals  = np.zeros_like(alphas)
+# Compute MSE at each α
+for i, α in enumerate(alphas):
+    _, y_pred = ridge_regression_sklearn(X_test, X_train, y_train, α)
+    mse_vals[i] = mean_squared_error(y_test, y_pred)
 
+# Plot
+plt.figure(figsize=(8, 5))
+plt.plot(alphas, mse_vals)
+plt.xscale('log')
+plt.xlabel('Regularization strength (α)')
+plt.ylabel('Test-set MSE')
+plt.title('Ridge Regression: Test MSE vs. α')
+plt.tight_layout()
+plt.show()
 
 # %% [markdown]
 """
