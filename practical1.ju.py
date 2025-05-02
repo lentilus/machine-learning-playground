@@ -107,7 +107,8 @@ Furthermore, we need to normalize the data, such that each feature has a mean of
 
 # %%
 # Histogram of the target variable
-
+plt.hist(y_train_full)
+plt.tight_layout()
 
 # %%
 # Scatter plots of the target variable vs. features
@@ -187,6 +188,10 @@ Which material properties may be useful for predicting superconductivity? What o
 # %% [markdown]
 """
  YOUR ANSWER HERE
+ density, mean fusion heat, entropy density, thermal conductivity, range atomic radius a lot of plots show similar trends.
+ Features are sometimes distributed very unevenly, which might decrease information for prediction.
+ In most features there are ranges, in which nearly the full temperature range is presented.
+ Most valuable should be features that show clear trends. (and not just breakouts at certain points)
 """
 
 # %% [markdown]
@@ -305,6 +310,9 @@ What do you observe? Is the linear regression model good?
 # %% [markdown]
 """
 YOUR ANSWER HERE
+The results look not too good, since a r^2 of about 0,5 is quite low. If the result is good enough depends on the purpose in which the model will be used.
+Most of the features are only slightly influencing the result.
+There are a few outliners, for which the model strongly under- or overestimates the critical temperature.
 """
 
 # %% [markdown]
@@ -376,6 +384,9 @@ plot_regression_results(y_test, y_pred, weights)
 # %% [markdown]
 """
 YOU ANSWER HERE
+The test performance has increased.
+Especially the numerous outliners in the version above disappeared.
+Weights generally have a smaller magnitude as well.
 """
 
 # %% [markdown]
@@ -499,6 +510,9 @@ Why are the values of the weights largest on the left? Do they all change monoto
 # %% [markdown]
 """
 YOUR ANSWER HERE
+Because the penalty for higher magnitude of weights is lower for low a compared to higher a`s.
+The trend of the change of w with higher a is mostly monotonically. 
+However, there seem to be one freature which is weighted more after a increases over 10^4.
 """
 
 # %% [markdown]
@@ -533,6 +547,8 @@ Which value of $\alpha$ gives the minimum MSE? Is it better than the unregulariz
 # %% [markdown]
 """
 YOUR ANSWER HERE
+THe model is way better then the unregularized one.
+Optimal a is a bit higher then 10^2.
 """
 
 # %% [markdown]
@@ -686,11 +702,14 @@ plt.tight_layout()
 # %% [markdown]
 """
 What is the optimal $\alpha$? Is it similar to the one found on the test set? Do the cross-validation MSE and the test-set MSE match well or differ strongly?
+
 """
 
 # %% [markdown]
 """
 YOUR ANSWER HERE
+the optimum for alpha seems to be somewhere between 10^4 and 10^3, so it has changed compared to the a of the test dataset.
+The cross val and test MSE differ not strongly. They are about 400 for the optimum alpha.
 """
 
 # %% [markdown]
@@ -734,5 +753,8 @@ Why does the CV curve on the full data set look so different? What is the optima
 # %% [markdown]
 """
 YOUR ANSWER HERE
+Blue line full data set:
+The model is trained based on the full dataset. Thus, the less restrictive a is, the more the model magnitudes of w will change and result into overfitting for lower a. This overfitting will not be seen in "validation" since every point that is used for validation is considered in the model training.
+Overfitting for just a smaller dataset on the other hand will show when tested against the larger validation dataset, since individual points are overinterpreted.
 """
 
